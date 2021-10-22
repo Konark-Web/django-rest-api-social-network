@@ -1,3 +1,22 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
 
-# Create your models here.
+
+class CustomUser(AbstractUser):
+    last_request = models.DateTimeField(default=timezone.now)
+
+
+class Post(models.Model):
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
+    likes = models.IntegerField(default=0)
+
+
+class PostLikes(models.Model):
+    post_id = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    type = models.IntegerField(default=0)
+    date = models.DateTimeField(default=timezone.now)

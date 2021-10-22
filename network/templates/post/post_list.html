@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="main_post">
+        {% if posts %}
+            {% for post in posts %}
+                <div class="post post-{{ post.id }}">
+                    <h2><a href="{% url 'post_single' pk=post.pk %}">{{ post.title }}</a></h2>
+                    <div class="post_meta">
+                        <span class="post_author">{{ post.author.username }}</span>
+                        <span class="post_date">{{ post.created_date }}</span>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}
