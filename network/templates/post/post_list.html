@@ -1,17 +1,24 @@
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
 
 {% block content %}
-    <div class="main_post">
-        {% if posts %}
-            {% for post in posts %}
-                <div class="post post-{{ post.id }}">
-                    <h2><a href="{% url 'post_single' pk=post.pk %}">{{ post.title }}</a></h2>
-                    <div class="post_meta">
-                        <span class="post_author">{{ post.author.username }}</span>
-                        <span class="post_date">{{ post.created_date }}</span>
+    {% if page_obj %}
+        <div class="row mb-2">
+            {% for post in page_obj %}
+                <div class="col-md-6">
+                    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                        <div class="col p-4 d-flex flex-column position-static">
+                            <strong class="d-inline-block mb-2 text-success">{{ post.author.username }}</strong>
+                            <h3 class="mb-0">{{ post.title|title }}</h3>
+                            <div class="mb-1 text-muted">{{ post.created_date }}</div>
+                            <p class="mb-auto">{{ post.text|truncatewords:20 }}</p>
+                            <a href="{% url 'post_single' pk=post.pk %}" class="stretched-link">Continue reading</a>
+                        </div>
                     </div>
                 </div>
             {% endfor %}
-        {% endif %}
-    </div>
+        </div>
+
+        {% bootstrap_pagination page_obj %}
+    {% endif %}
 {% endblock %}

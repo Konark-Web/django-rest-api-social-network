@@ -6,10 +6,9 @@
 
 {% block content %}
     <div class="post_main">
-        <h1>{{ post.title }}</h1>
+        <h1>{{ post.title|title }}</h1>
         <div class="post_meta">
-            <span class="post_author">{{ post.author.username }}</span>
-            <span class="post_date">{{ post.created_date }}</span>
+            <span>Posted on {{ post.created_date|date:"F d, Y" }} by {{ post.author.username }}</span>
         </div>
         <div class="post_content">
             {{ post.text }}
