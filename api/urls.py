@@ -11,6 +11,7 @@ urlpatterns = [
     path('post-create/', views.PostCreate.as_view()),
     path('create-user/', views.CreateUser.as_view()),
     path('authenticate/', views.AuthenticateUser.as_view()),
+    path('analytics/', views.PostLikeAnalytics.as_view())
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

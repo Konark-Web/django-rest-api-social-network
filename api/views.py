@@ -3,6 +3,10 @@ import datetime
 from django.contrib.auth import user_logged_in
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+
+from django.db.models import Count
+from django.db.models.functions import TruncDay
+
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -15,7 +19,7 @@ from social import settings
 
 
 class PostList(APIView):
-    def get(self, request):
+    def get(self):
         post_obj = Post.objects.all()
         serializer = serializers.PostSerializer(post_obj, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -79,6 +83,42 @@ class PostLike(APIView):
             return Response(response, status=status.HTTP_404_NOT_FOUND)
 
 
+class PostLikeAnalytics(APIView):
+    def get(self, request):
+        response = {}
+        date_from = request.GET.get('date_from')
+        date_to = request.GET.get('date_to')
+
+        if date_from:
+            try:
+                date_from = datetime.datetime.strptime(date_from, '%Y-%m-%d')
+
+                if date_to:
+                    date_to = datetime.datetime.strptime(date_to, '%Y-%m-%d')
+                else:
+                    date_to = datetime.datetime.now()
+            except ValueError:
+                response['message'] = 'You entered an incorrect date format.'
+                return Response(response, status=status.HTTP_400_BAD_REQUEST)
+
+            likes_obj = PostLikes.objects\
+                .annotate(day=TruncDay('date'))\
+                .values('day')\
+                .annotate(c=Count('id'))\
+                .values('day', 'c')\
+                .filter(type=1, date__range=(date_from, date_to))
+
+            if likes_obj:
+                for like in likes_obj:
+                    date = like['day'].strftime('%Y-%m-%d')
+                    response[date] = like['c']
+
+                return Response(response, status=status.HTTP_200_OK)
+
+        response['message'] = 'No likes for this period.'
+        return Response(response, status=status.HTTP_404_NOT_FOUND)
+
+
 class CreateUser(APIView):
     def post(self, request):
         user = request.data
@@ -99,10 +139,8 @@ class AuthenticateUser(APIView):
         if user:
             payload = jwt_payload_handler(user)
             token = jwt.encode(payload, settings.SECRET_KEY)
-            user_details = {}
-            user_details['name'] = "%s %s" % (
-                user.first_name, user.last_name)
-            user_details['token'] = token
+            user_details = {'name': "%s %s" % (
+                user.first_name, user.last_name), 'token': token}
             user_logged_in.send(sender=user.__class__,
                                 request=request, user=user)
             return Response(user_details, status=status.HTTP_200_OK)
