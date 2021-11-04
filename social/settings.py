@@ -54,6 +54,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'api.middleware.JWTAuthenticationInMiddleware',
+    'api.middleware.LoggedInUserMiddleware',
 ]
 
 ROOT_URLCONF = 'social.urls'
@@ -143,3 +145,4 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=30000),
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 }
+

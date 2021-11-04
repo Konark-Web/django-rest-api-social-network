@@ -54,11 +54,6 @@ class PostLike(APIView):
         if post:
             response['message'] = 'You successfully liked the post'
 
-            # THIS FOR ANALYTICS (EXAMPLE CODE)
-            start_date = datetime.date(2021, 10, 21)
-            end_date = datetime.date(2021, 10, 24)
-            print(len(PostLikes.objects.filter(date__range=(start_date, end_date))))
-
             like = PostLikes.objects.filter(post_id=post, user_id=user).first()
             if like:
                 if like.type == 1:
