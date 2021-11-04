@@ -18,7 +18,7 @@ Object of this task is to create a simple REST API use DRF.
 ## Requirements:
 - Implement token authentication (JWT is prefered)
 
-### Endpoints:
+## Endpoints:
 - /api/posts (GET) - get all posts
 - /api/posts/<post-id> (GET) - get single post by id
 - /api/posts/<post-id>/like (POST) - like or unlike post by id
@@ -28,7 +28,7 @@ Object of this task is to create a simple REST API use DRF.
 - /api/analytics/?date_from=2021-02-02&date_to=2021-11-10 (GET) - analytics about how many likes was made. API return 
 analytics aggregated by day. date_from is required parameter.
 
-#### Response examples:
+### Response examples:
 https://gist.github.com/Konark-Web/e9961fea2709b0b58a31b6d89358f0c2
 
 
