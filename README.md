@@ -20,11 +20,17 @@ Object of this task is to create a simple REST API use DRF.
 
 ### Endpoints:
 - /api/posts (GET) - get all posts
-- /api/posts/<id> (GET) - get single post by id
-- /api/posts/<id>/like (POST) - like or unlike post by id
+- /api/posts/<post-id> (GET) - get single post by id
+- /api/posts/<post-id>/like (POST) - like or unlike post by id
 - /api/post-create/ (POST) - create new post
 - /api/create-user/ (POST) - registration endpoint
-- /api/authenticate/ (POST) - authentication for get token
+- /api/authenticate/ (POST) - authentication for get token by email and password
+- /api/analytics/?date_from=2021-02-02&date_to=2021-11-10 (GET) - analytics about how many likes was made. API return 
+analytics aggregated by day. date_from is required parameter.
+
+#### Response examples:
+https://gist.github.com/Konark-Web/e9961fea2709b0b58a31b6d89358f0c2
+
 
 
 

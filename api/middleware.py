@@ -1,6 +1,7 @@
 from django.contrib.auth.middleware import get_user
 from django.utils.functional import SimpleLazyObject
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from rest_framework.exceptions import AuthenticationFailed
 
 
 class JWTAuthenticationInMiddleware(object):
@@ -43,9 +44,12 @@ class LoggedInUser(Singleton):
 
     def set_data(self, request):
         self.request = id(request)
-        if request.user.is_authenticated:
-            self.user = request.user
-            self.address = request.META.get("REMOTE_ADDR")
+        try:
+            if request.user.is_authenticated:
+                self.user = request.user
+                self.address = request.META.get("REMOTE_ADDR")
+        except AuthenticationFailed:
+            pass
 
     @property
     def current_user(self):

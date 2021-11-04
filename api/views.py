@@ -19,7 +19,7 @@ from social import settings
 
 
 class PostList(APIView):
-    def get(self):
+    def get(self, request):
         post_obj = Post.objects.all()
         serializer = serializers.PostSerializer(post_obj, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
