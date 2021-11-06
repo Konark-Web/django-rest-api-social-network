@@ -21,4 +21,32 @@
 
         {% bootstrap_pagination page_obj %}
     {% endif %}
+
+    {% if form %}
+        <div class="subscribe-form-container">
+            <h3>Subscribe to new posts</h3>
+            <form method="POST" class="post-form subscribe-form" action="/">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="inputEmail">Email address</label>
+                    {{ form.email }}
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                 <button type="submit" class="btn btn-primary">Subscribe</button>
+            </form>
+            {% if send_status == 'success' %}
+                <div class="alert alert-success" role="alert">
+                    Email sent success.
+                </div>
+            {% elif send_status == 'already-exist' %}
+                <div class="alert alert-warning" role="alert">
+                    The email already exists.
+                </div>
+            {% elif send_status == 'fail' %}
+                <div class="alert alert-danger" role="alert">
+                    No email has been sent. An error has occurred.
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
 {% endblock %}

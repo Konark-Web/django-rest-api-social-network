@@ -30,3 +30,9 @@ class PostLikes(models.Model):
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     type = models.IntegerField(default=0)
     date = models.DateTimeField(default=timezone.now)
+
+
+class Subscribers(models.Model):
+    email = models.EmailField(unique=True)
+    subscribe_date = models.DateTimeField(default=timezone.now)
+    status = models.IntegerField(default=1)

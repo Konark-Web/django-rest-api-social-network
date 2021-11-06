@@ -11,6 +11,14 @@
     font-style: italic;
 }
 
+.subscribe-form-container {
+    margin: 50px 0;
+}
+
+.subscribe-form {
+    margin-bottom: 20px;
+}
+
 .blog-footer {
     padding: 2.5rem 0;
     color: #727272;
