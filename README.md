@@ -1,4 +1,5 @@
 Object of this task is to create a simple REST API use DRF.
+The project also uses Celery and Redis to send messages.
 
 
 ## Basic models:
