@@ -12,6 +12,6 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'send-post-every-5-minutes': {
         'task': 'network.tasks.send_posts',
-        'schedule': crontab(minute='*/5'),
+        'schedule': crontab(minute='*/60'),
     },
 }
